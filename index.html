@@ -1,86 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Access Blocked</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Access blocked</title>
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        background: #ffffff;
-        color: #111111;
-        font-family: Arial, Helvetica, sans-serif;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .container {
-        text-align: center;
-        max-width: 600px;
-        padding: 40px;
-    }
-
-    .icon {
-        font-size: 72px;
-        color: #c62828;
-        margin-bottom: 24px;
-    }
-
-    h1 {
-        font-size: 2rem;
-        font-weight: 300;
-        margin-bottom: 16px;
-        color: #222;
-    }
-
-    p {
-        font-size: 1rem;
-        line-height: 1.6;
-        color: #555;
-    }
-
-    .reason {
-        margin-top: 24px;
-        padding: 16px;
-        border-left: 4px solid #c62828;
-        background: #fafafa;
-        color: #444;
-        text-align: left;
-    }
-
-    .footer {
-        margin-top: 32px;
-        font-size: 0.85rem;
-        color: #888;
-    }
+:root{--oebb:#e2001a;--text:#2b2b2b;--muted:#666;--bg:#f5f5f5}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+header{height:68px;background:#fff;border-bottom:4px solid var(--oebb);display:flex;align-items:center;justify-content:space-between;padding:0 6vw}.logo{background:var(--oebb);color:#fff;font-weight:800;font-size:24px;letter-spacing:-1px;padding:8px 13px;border-radius:3px}.languages button{border:0;background:transparent;color:#666;font-weight:700;padding:8px;cursor:pointer}.languages button.active{color:var(--oebb)}
+main{flex:1;display:grid;place-items:center;padding:24px}.box{width:min(560px,100%);background:#fff;padding:38px 40px;border-radius:4px;box-shadow:0 4px 18px rgba(0,0,0,.10);text-align:center}.symbol{margin:0 auto 20px;width:56px;height:56px;border:3px solid var(--oebb);border-radius:50%;display:grid;place-items:center;color:var(--oebb);font-weight:bold;font-size:32px}h1{font-size:27px;margin:0 0 16px}p{line-height:1.5;color:var(--muted);margin:10px 0}.details{text-align:left;margin-top:23px;background:#f3f3f3;border-left:4px solid var(--oebb);padding:13px 15px;font-size:14px}.label{font-weight:700;color:#333}.value{overflow-wrap:anywhere;margin-top:4px}.reason{margin-top:10px}
+footer{text-align:center;color:#888;font-size:12px;padding:16px}@media(max-width:600px){header{height:60px;padding:0 16px}.logo{font-size:21px;padding:7px 11px}.box{padding:28px 20px;box-shadow:none;background:transparent}h1{font-size:23px}.symbol{width:50px;height:50px;font-size:28px}}
 </style>
-</head>
-<body>
-    <div class="container">
-        <div class="icon">⛔</div>
-
-        <h1>Content Blocked</h1>
-
-        <p>
-            Access to this content has been restricted in accordance with
-            organizational security and acceptable use policies.
-        </p>
-
-        <div class="reason">
-            <strong>Reason:</strong><br>
-            The requested website or content category is not permitted.
-        </div>
-
-        <div class="footer">
-            If you believe this page was blocked in error, please contact your administrator.
-        </div>
-    </div>
-</body>
-</html>
+</head><body>
+<header><div class="logo" aria-label="ÖBB">ÖBB</div><div class="languages"><button id="enBtn" class="active" onclick="setLang('en')">EN</button><button id="deBtn" onclick="setLang('de')">DE</button></div></header>
+<main><section class="box"><div class="symbol">!</div><h1 id="title"></h1><p id="message"></p><div class="details"><div class="label" id="urlLabel"></div><div class="value" id="blockedUrl"></div><div class="reason"><span class="label" id="reasonLabel"></span><div class="value" id="reason"></div></div></div></section></main>
+<footer>ÖBB WiFi</footer>
+<script>
+const text={en:{title:'Access blocked',message:'The requested website cannot be accessed.',urlLabel:'Blocked URL',reasonLabel:'Reason',reason:'Access is restricted by the content filtering policy.'},de:{title:'Zugriff blockiert',message:'Die angeforderte Website kann nicht aufgerufen werden.',urlLabel:'Blockierte URL',reasonLabel:'Grund',reason:'Der Zugriff ist durch die Inhaltsfilter-Richtlinie eingeschränkt.'}};
+function setLang(l){document.documentElement.lang=l;for(const k of ['title','message','urlLabel','reasonLabel','reason'])document.getElementById(k).textContent=text[l][k];enBtn.classList.toggle('active',l==='en');deBtn.classList.toggle('active',l==='de')}
+const params=new URLSearchParams(location.search);document.getElementById('blockedUrl').textContent=params.get('url')||'https://example.com/';
+setLang('en');
+</script>
+</body></html>
