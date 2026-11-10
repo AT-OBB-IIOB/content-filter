@@ -18,7 +18,12 @@ footer{text-align:center;color:#888;font-size:12px;padding:16px}@media(max-width
 <script>
 const text={en:{title:'Access blocked',message:'The requested website cannot be accessed.',urlLabel:'Blocked URL',reasonLabel:'Reason',reason:'Access is restricted by the content filtering policy.'},de:{title:'Zugriff blockiert',message:'Die angeforderte Website kann nicht aufgerufen werden.',urlLabel:'Blockierte URL',reasonLabel:'Grund',reason:'Der Zugriff ist durch die Inhaltsfilter-Richtlinie eingeschränkt.'}};
 function setLang(l){document.documentElement.lang=l;for(const k of ['title','message','urlLabel','reasonLabel','reason'])document.getElementById(k).textContent=text[l][k];enBtn.classList.toggle('active',l==='en');deBtn.classList.toggle('active',l==='de')}
-const params=new URLSearchParams(location.search);document.getElementById('blockedUrl').textContent=params.get('url')||'https://example.com/';
+const params=new URLSearchParams(location.search);
+// query keys are matched case-insensitively (origUrl, origURL, ORIGURL, ...)
+function getParam(name){const n=name.toLowerCase();for(const [k,v] of params)if(k.toLowerCase()===n)return v;return null}
+function decodeOrigUrl(v){if(!v)return null;try{const b=v.replace(/-/g,'+').replace(/_/g,'/');return new TextDecoder().decode(Uint8Array.from(atob(b),c=>c.charCodeAt(0)))||null}catch(e){return null}}
+const pageToVisit=decodeOrigUrl(getParam('origUrl'))||'http://www.example.com';
+document.getElementById('blockedUrl').textContent=pageToVisit;
 setLang('en');
 </script>
 </body></html>
